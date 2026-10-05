@@ -1,0 +1,2335 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>A little world, just for you · October 6</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f6f3e9;
+        --ink: #34345d;
+        --accent: #7674bc;
+        --soft: #e7e3f1;
+        --pop: #d9ec94;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: Arial, Helvetica, sans-serif;
+        transition:
+          background 0.7s,
+          color 0.7s;
+        overflow-x: hidden;
+      }
+      button,
+      input,
+      textarea {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+        color: inherit;
+      }
+      button:focus-visible,
+      a:focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 5px;
+      }
+      button {
+        -webkit-tap-highlight-color: transparent;
+      }
+      header {
+        height: 104px;
+        padding: 0 5%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #77777725;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+      }
+      .brand svg {
+        width: 29px;
+      }
+      .edition {
+        text-transform: uppercase;
+        font-size: 10px;
+        letter-spacing: 2px;
+        opacity: 0.65;
+      }
+      .tools {
+        display: flex;
+        gap: 10px;
+      }
+      .iconbtn {
+        background: transparent;
+        border: 1px solid #77777740;
+        border-radius: 50%;
+        width: 38px;
+        height: 38px;
+        display: grid;
+        place-items: center;
+      }
+      .iconbtn:hover {
+        background: var(--soft);
+      }
+      .topline {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        font: 10px monospace;
+        letter-spacing: 2px;
+      }
+      .live {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+      }
+      .live:before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        background: var(--accent);
+        border-radius: 50%;
+        box-shadow: 0 0 0 4px #77777710;
+      }
+      main {
+        max-width: 1440px;
+        margin: auto;
+        padding: 32px 7% 0;
+      }
+      .slide {
+        display: none;
+        min-height: 580px;
+        animation: appear 0.65s both;
+      }
+      .slide.active {
+        display: block;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 35px;
+        align-items: center;
+        min-height: 505px;
+      }
+      .eyebrow {
+        font: 10px monospace;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .eyebrow:before {
+        content: "";
+        width: 24px;
+        height: 1px;
+        background: currentColor;
+      }
+      h1,
+      h2 {
+        font-family: Georgia, "Times New Roman", serif;
+        font-weight: 400;
+        font-size: clamp(48px, 5.5vw, 82px);
+        line-height: 1.04;
+        letter-spacing: -4px;
+        margin: 24px 0;
+      }
+      h1 em,
+      h2 em {
+        font-weight: 400;
+        color: var(--accent);
+      }
+      p {
+        font-size: 14px;
+        line-height: 1.85;
+        opacity: 0.78;
+        max-width: 355px;
+      }
+      .primary {
+        background: var(--ink);
+        color: var(--bg);
+        border: 0;
+        border-radius: 50px;
+        padding: 17px 25px;
+        display: inline-flex;
+        gap: 35px;
+        align-items: center;
+        font-size: 12px;
+        margin-top: 20px;
+        transition: transform 0.2s;
+      }
+      .primary:hover {
+        transform: translateY(-3px);
+      }
+      .micro {
+        font-size: 10px;
+        opacity: 0.5;
+        letter-spacing: 0.2px;
+        margin-top: 17px;
+      }
+      .visual {
+        position: relative;
+        min-height: 475px;
+        display: grid;
+        place-items: center;
+      }
+      .world {
+        width: min(100%, 490px);
+        aspect-ratio: 1;
+        position: relative;
+      }
+      .orbit {
+        position: absolute;
+        border: 1px solid #85819e40;
+        border-radius: 50%;
+        inset: 9%;
+        transform: rotate(-25deg) scaleY(0.83);
+      }
+      .orbit.two {
+        inset: 0;
+        transform: rotate(35deg) scaleY(0.86);
+        border-style: dashed;
+        opacity: 0.6;
+      }
+      .world svg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        animation: float 6s ease-in-out infinite;
+      }
+      .floatlabel {
+        position: absolute;
+        background: #fffaf0;
+        padding: 12px 17px;
+        border: 1px solid #34345d20;
+        box-shadow: 0 6px 18px #34345d09;
+        border-radius: 9px;
+        font-size: 11px;
+        z-index: 2;
+        transform: rotate(-8deg);
+        top: 17%;
+        left: 0;
+      }
+      .floatlabel.right {
+        top: auto;
+        left: auto;
+        bottom: 20%;
+        right: -2%;
+        transform: rotate(8deg);
+        background: var(--pop);
+      }
+      .badge {
+        position: absolute;
+        right: 7%;
+        top: 9%;
+        width: 87px;
+        height: 87px;
+        background: var(--pop);
+        border-radius: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transform: rotate(12deg);
+        font: 9px monospace;
+        letter-spacing: 1px;
+        gap: 4px;
+      }
+      .badge b {
+        font: italic 30px Georgia;
+      }
+      .scribble {
+        position: absolute;
+        bottom: 5%;
+        left: 25%;
+        font: italic 17px Georgia;
+        transform: rotate(-5deg);
+        opacity: 0.65;
+      }
+      .star {
+        position: absolute;
+        font-size: 34px;
+      }
+      .s1 {
+        left: 7%;
+        bottom: 23%;
+      }
+      .s2 {
+        right: 0;
+        top: 45%;
+        font-size: 23px;
+      }
+      .countdown {
+        border-top: 1px solid #77777730;
+        margin-top: 32px;
+        padding-top: 18px;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+      .countdown small {
+        font: 9px monospace;
+        line-height: 1.7;
+        letter-spacing: 1px;
+        opacity: 0.6;
+      }
+      .countdown b {
+        font: 22px Georgia;
+        font-weight: 400;
+      }
+      .countdown span {
+        font: 8px monospace;
+        display: block;
+        margin-top: 5px;
+        opacity: 0.5;
+        letter-spacing: 1px;
+      }
+      footer {
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 22px 7% 25px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+      }
+      .chapters {
+        display: flex;
+        gap: 18px;
+      }
+      .chapter {
+        background: none;
+        border: 0;
+        padding: 12px 0;
+        font: 9px monospace;
+        color: inherit;
+        opacity: 0.4;
+        position: relative;
+      }
+      .chapter.active {
+        opacity: 1;
+      }
+      .chapter:after {
+        content: "";
+        height: 2px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: currentColor;
+        transform: scaleX(0);
+        transition: 0.3s;
+      }
+      .chapter.active:after {
+        transform: scaleX(1);
+      }
+      .pagearrows {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        font: 10px monospace;
+      }
+      .arrow {
+        width: 36px;
+        height: 36px;
+        border: 1px solid #77777740;
+        background: transparent;
+        border-radius: 50%;
+      }
+      .arrow:disabled {
+        opacity: 0.25;
+        cursor: default;
+      }
+      .footer-note {
+        font: 9px monospace;
+        opacity: 0.5;
+      }
+      .card {
+        background: #ffffff70;
+        border: 1px solid #ffffff90;
+        border-radius: 18px;
+        padding: 30px;
+        box-shadow: 0 20px 60px #2823430a;
+      }
+      .section-title {
+        font: italic 20px Georgia;
+        margin-bottom: 20px;
+      }
+      .compliments {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        transform: rotate(-3deg);
+        width: 100%;
+        max-width: 450px;
+      }
+      .flip {
+        height: 170px;
+        background: #fff9f0;
+        border: 1px solid #85736922;
+        border-radius: 13px;
+        padding: 20px;
+        transition: 0.4s;
+        font-size: 12px;
+        line-height: 1.6;
+        box-shadow: 0 9px 25px #42251b08;
+      }
+      .flip:nth-child(2) {
+        background: #e5a48c;
+        transform: translateY(25px);
+      }
+      .flip:nth-child(3) {
+        background: #e8d88d;
+      }
+      .flip:nth-child(4) {
+        background: #e9dccd;
+        transform: translateY(25px);
+      }
+      .flip .symbol {
+        font: 40px Georgia;
+        display: block;
+        margin-bottom: 15px;
+      }
+      .flip.open {
+        transform: rotate(3deg);
+        background: #fffef9;
+      }
+      .flip small {
+        display: block;
+        font: 9px monospace;
+        opacity: 0.5;
+        letter-spacing: 1px;
+        margin-top: 9px;
+      }
+      .quiz {
+        width: 100%;
+        max-width: 430px;
+        transform: rotate(2deg);
+      }
+      .quiz label {
+        font: 10px monospace;
+        letter-spacing: 1px;
+      }
+      .quiz h3 {
+        font: 32px Georgia;
+        margin: 18px 0 28px;
+      }
+      .choices {
+        display: grid;
+        gap: 10px;
+      }
+      .choice {
+        border: 1px solid #77777730;
+        border-radius: 10px;
+        padding: 17px;
+        text-align: left;
+        background: #ffffff40;
+        font-size: 12px;
+        transition: 0.2s;
+      }
+      .choice:hover,
+      .choice.selected {
+        background: var(--pop);
+        transform: translateX(4px);
+      }
+      .feedback {
+        min-height: 53px;
+        font-size: 12px;
+        line-height: 1.7;
+        margin-top: 20px;
+      }
+      .gift-area {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 13px;
+        width: 100%;
+      }
+      .gift {
+        border: 0;
+        background: #ffffff60;
+        border-radius: 60px 60px 15px 15px;
+        min-height: 210px;
+        padding: 15px 10px;
+        transition: 0.3s;
+      }
+      .gift:hover {
+        transform: translateY(-12px);
+      }
+      .gift:nth-child(2) {
+        margin-top: 35px;
+        background: #ecd4ac;
+      }
+      .gift:nth-child(3) {
+        background: #d0ddc7;
+      }
+      .gift .gift-icon {
+        font-size: 45px;
+        display: block;
+        margin: 15px 0 25px;
+      }
+      .gift b {
+        font: italic 18px Georgia;
+        display: block;
+      }
+      .gift small {
+        font: 9px monospace;
+        display: block;
+        line-height: 1.7;
+        margin-top: 12px;
+      }
+      .gift-message {
+        height: 65px;
+        text-align: center;
+        font: italic 19px Georgia;
+        margin-top: 30px;
+        line-height: 1.5;
+      }
+      .cake-zone {
+        width: 100%;
+        text-align: center;
+      }
+      .cake {
+        position: relative;
+        width: 245px;
+        height: 240px;
+        margin: 25px auto 15px;
+      }
+      .plate {
+        position: absolute;
+        width: 290px;
+        height: 30px;
+        background: #afbad3;
+        border-radius: 50%;
+        left: -22px;
+        bottom: 5px;
+      }
+      .cake-body {
+        position: absolute;
+        width: 240px;
+        height: 125px;
+        bottom: 20px;
+        background: repeating-linear-gradient(
+          90deg,
+          #eeb2bb 0px,
+          #eeb2bb 24px,
+          #e4a0ad 24px,
+          #e4a0ad 26px
+        );
+        border-radius: 15px 15px 40% 40%;
+        box-shadow: inset 0 -15px 0 #00000005;
+      }
+      .cake-top {
+        position: absolute;
+        width: 240px;
+        height: 70px;
+        bottom: 111px;
+        border-radius: 50%;
+        background: #fff0dc;
+        border: 7px solid #f5c7ce;
+      }
+      .candle {
+        position: absolute;
+        width: 15px;
+        height: 63px;
+        bottom: 154px;
+        left: 113px;
+        background: repeating-linear-gradient(
+          45deg,
+          #8c8bbc 0px,
+          #8c8bbc 7px,
+          #faf0dc 7px,
+          #faf0dc 13px
+        );
+        border-radius: 4px;
+      }
+      .flame {
+        position: absolute;
+        left: 111px;
+        bottom: 224px;
+        width: 19px;
+        height: 30px;
+        border-radius: 70% 30% 55% 45%;
+        background: #ffdc82;
+        box-shadow: 0 0 22px #ffdb8c;
+        animation: flicker 0.4s infinite alternate;
+        transition: 0.5s;
+      }
+      .blown .flame {
+        opacity: 0;
+        transform: translateY(-25px) scale(0);
+      }
+      .wish-input {
+        border: 0;
+        border-bottom: 1px solid #ffffff50;
+        color: inherit;
+        background: transparent;
+        text-align: center;
+        padding: 12px;
+        width: 90%;
+        outline: none;
+      }
+      .wish-input::placeholder {
+        color: inherit;
+        opacity: 0.5;
+      }
+      .hold {
+        background: linear-gradient(
+          90deg,
+          var(--accent) var(--progress, 0%),
+          #ffffff15 var(--progress, 0%)
+        );
+        color: inherit;
+        border: 1px solid #ffffff40;
+        border-radius: 30px;
+        padding: 15px 26px;
+        margin-top: 20px;
+        touch-action: none;
+        user-select: none;
+      }
+      .letter {
+        position: relative;
+        max-width: 430px;
+        width: 100%;
+        padding: 40px;
+        background: #fffcf3;
+        color: #535a49;
+        box-shadow: 0 20px 50px #18271414;
+        transform: rotate(-3deg);
+        border-radius: 3px;
+      }
+      .letter:before {
+        content: "";
+        position: absolute;
+        top: -13px;
+        left: 40%;
+        height: 30px;
+        width: 90px;
+        background: #d5d9b99c;
+        transform: rotate(8deg);
+      }
+      .letter .stamp {
+        position: absolute;
+        right: 25px;
+        top: 23px;
+        border: 1px dashed #71825d;
+        padding: 9px;
+        font-size: 20px;
+      }
+      .letter h3 {
+        font: italic 25px Georgia;
+        margin: 30px 0 20px;
+      }
+      .letter p {
+        font: 15px/1.9 Georgia;
+        opacity: 0.85;
+      }
+      .signature {
+        font: italic 22px Georgia;
+        margin-top: 25px;
+      }
+      .heartbtn {
+        background: transparent;
+        border: 0;
+        font-size: 30px;
+        transition: 0.2s;
+        margin-top: 12px;
+      }
+      .heartbtn:hover {
+        transform: scale(1.2);
+      }
+      .love-note {
+        font: 9px monospace;
+        opacity: 0.65;
+      }
+      .confetti {
+        position: fixed;
+        top: -20px;
+        z-index: 100;
+        pointer-events: none;
+        animation: fall var(--t) linear forwards;
+      }
+      .toast {
+        position: fixed;
+        bottom: 90px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--ink);
+        color: var(--bg);
+        padding: 12px 24px;
+        border-radius: 30px;
+        font-size: 12px;
+        z-index: 99;
+        white-space: nowrap;
+      }
+      dialog {
+        border: 0;
+        border-radius: 20px;
+        padding: 32px;
+        background: #f6f3e9;
+        color: #34345d;
+        width: min(90%, 430px);
+        box-shadow: 0 30px 100px #0005;
+      }
+      dialog::backdrop {
+        background: #28243b80;
+        backdrop-filter: blur(8px);
+      }
+      dialog h3 {
+        font: 28px Georgia;
+        margin: 0 0 10px;
+      }
+      dialog p {
+        font-size: 12px;
+      }
+      dialog label {
+        display: block;
+        font-size: 11px;
+        margin-top: 16px;
+      }
+      dialog input,
+      dialog textarea {
+        display: block;
+        width: 100%;
+        padding: 11px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        margin-top: 7px;
+        background: #fffaf2;
+        color: #34345d;
+      }
+      dialog textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+      .close {
+        float: right;
+        border: 0;
+        background: none;
+        font-size: 22px;
+      }
+      .sound-on {
+        background: var(--pop);
+      }
+      @keyframes appear {
+        from {
+          opacity: 0;
+          transform: translateY(13px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes float {
+        50% {
+          transform: translateY(-10px) rotate(2deg);
+        }
+      }
+      @keyframes flicker {
+        to {
+          transform: rotate(8deg) scale(0.9);
+        }
+      }
+      @keyframes fall {
+        to {
+          transform: translateY(110vh) rotate(650deg);
+        }
+      }
+      @media (min-width: 1500px) {
+        main {
+          padding-top: 45px;
+        }
+        .slide {
+          min-height: 660px;
+        }
+        .grid {
+          min-height: 570px;
+        }
+      }
+      @media (max-width: 800px) {
+        header {
+          height: 76px;
+          padding: 0 6%;
+        }
+        .edition {
+          display: none;
+        }
+        main {
+          padding: 25px 7% 0;
+        }
+        .topline {
+          font-size: 8px;
+          margin-bottom: 25px;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+          gap: 15px;
+        }
+        .slide {
+          min-height: 0;
+        }
+        h1,
+        h2 {
+          font-size: 54px;
+          letter-spacing: -2.5px;
+          margin: 20px 0;
+        }
+        .copy p {
+          max-width: 100%;
+        }
+        .visual {
+          min-height: 340px;
+          margin-top: 15px;
+        }
+        .world {
+          max-width: 360px;
+        }
+        .primary {
+          margin-top: 8px;
+        }
+        .countdown {
+          margin-top: 20px;
+        }
+        .compliments {
+          max-width: 350px;
+          margin: 15px 0 35px;
+        }
+        .flip {
+          height: 150px;
+        }
+        .quiz {
+          margin: 20px 0;
+        }
+        .gift-area {
+          max-width: 430px;
+        }
+        .gift {
+          min-height: 190px;
+        }
+        .letter {
+          margin: 25px 0;
+        }
+        .chapters {
+          gap: 17px;
+        }
+        .chapter span {
+          display: none;
+        }
+        .chapter {
+          font-size: 11px;
+        }
+        .footer-note {
+          display: none;
+        }
+        footer {
+          padding: 30px 7%;
+          border-top: 1px solid #77777720;
+          margin-top: 24px;
+        }
+        .pagearrows {
+          gap: 9px;
+        }
+        .scribble {
+          font-size: 14px;
+        }
+        .floatlabel {
+          font-size: 9px;
+          padding: 10px;
+        }
+        .badge {
+          width: 70px;
+          height: 70px;
+        }
+        .badge b {
+          font-size: 24px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *:before,
+        *:after {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
+    <style>
+      :root {
+        --paper-line: color-mix(in srgb, var(--ink) 7%, transparent);
+        --outline: color-mix(in srgb, var(--ink) 82%, transparent);
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "DM Sans", sans-serif;
+        background-color: var(--bg);
+        background-image:
+          linear-gradient(var(--paper-line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
+        background-size: 28px 28px;
+        transition:
+          background-color 0.5s,
+          color 0.5s;
+      }
+      header {
+        height: 86px;
+        padding: 0 6%;
+        border-bottom: 2px solid var(--ink);
+        background: var(--bg);
+        position: relative;
+        z-index: 2;
+      }
+      .brand {
+        font-size: 15px;
+        font-weight: 800;
+        letter-spacing: 0;
+      }
+      .brand svg {
+        width: 34px;
+      }
+      .edition,
+      .topline,
+      .eyebrow,
+      .countdown small,
+      .countdown span,
+      .chapter,
+      .pagearrows,
+      .footer-note,
+      .badge,
+      .flip small,
+      .quiz label,
+      .gift small,
+      .love-note {
+        font-family: "DM Mono", monospace;
+        letter-spacing: 1px;
+      }
+      .edition {
+        font-size: 10px;
+      }
+      .iconbtn {
+        width: 44px;
+        height: 44px;
+        border: 2px solid var(--ink);
+        border-radius: 2px;
+        background: var(--pop);
+        font-size: 18px;
+        box-shadow: 3px 3px 0 var(--ink);
+        transition:
+          transform 0.18s,
+          box-shadow 0.18s;
+      }
+      .iconbtn:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 5px 5px 0 var(--ink);
+        background: var(--pop);
+      }
+      main {
+        max-width: 1280px;
+        padding: 35px 7% 0;
+      }
+      .topline {
+        font-size: 10px;
+        margin-bottom: 24px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--outline);
+      }
+      .live:before {
+        background: var(--accent);
+        box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+      }
+      .grid {
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 48px;
+        min-height: 520px;
+      }
+      .eyebrow {
+        font-size: 10px;
+        font-weight: 500;
+      }
+      h1,
+      h2 {
+        font-family: "Fraunces", Georgia, serif;
+        font-size: 76px;
+        line-height: 1;
+        letter-spacing: 0;
+        margin: 22px 0 18px;
+      }
+      h1 em,
+      h2 em {
+        font-style: italic;
+        color: var(--accent);
+      }
+      p {
+        font-size: 15px;
+        line-height: 1.8;
+        max-width: 390px;
+        opacity: 0.88;
+      }
+      .primary {
+        background: var(--accent);
+        color: #fffdf2;
+        border: 2px solid var(--ink);
+        border-radius: 2px;
+        padding: 15px 20px;
+        font-weight: 700;
+        box-shadow: 5px 5px 0 var(--ink);
+        transition:
+          transform 0.18s,
+          box-shadow 0.18s;
+      }
+      .primary:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 7px 7px 0 var(--ink);
+      }
+      .micro {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        line-height: 1.6;
+      }
+      .visual {
+        min-height: 475px;
+      }
+      .world svg {
+        filter: hue-rotate(112deg) saturate(1.08);
+      }
+      .orbit {
+        border: 2px dashed color-mix(in srgb, var(--ink) 27%, transparent);
+      }
+      .orbit.two {
+        border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+      }
+      .floatlabel {
+        background: #fff9e8;
+        border: 2px solid var(--ink);
+        box-shadow: 4px 4px 0 var(--ink);
+        border-radius: 2px;
+        font-weight: 700;
+      }
+      .floatlabel.right {
+        background: var(--pop);
+      }
+      .badge {
+        border: 2px solid var(--ink);
+        background: var(--pop);
+        box-shadow: 4px 4px 0 var(--ink);
+      }
+      .scribble {
+        font-family: "Fraunces", Georgia, serif;
+        color: var(--accent);
+      }
+      .countdown {
+        border-top: 2px solid var(--ink);
+        gap: 17px;
+      }
+      .countdown b {
+        font:
+          500 26px "Fraunces",
+          Georgia,
+          serif;
+      }
+      footer {
+        max-width: 1280px;
+        padding: 22px 7% 28px;
+        border-top: 2px solid var(--ink);
+        margin-top: 15px;
+      }
+      .chapters {
+        gap: 20px;
+      }
+      .chapter {
+        font-size: 10px;
+        opacity: 0.58;
+      }
+      .chapter:after {
+        height: 3px;
+        background: var(--accent);
+      }
+      .chapter.active {
+        font-weight: 500;
+        opacity: 1;
+      }
+      .pagearrows {
+        gap: 12px;
+      }
+      .arrow {
+        width: 40px;
+        height: 40px;
+        border: 2px solid var(--ink);
+        border-radius: 2px;
+        background: var(--pop);
+        box-shadow: 3px 3px 0 var(--ink);
+      }
+      .arrow:disabled {
+        box-shadow: none;
+      }
+      .footer-note {
+        font-size: 9px;
+      }
+      .card {
+        background: #fff9e8;
+        border: 2px solid var(--ink);
+        border-radius: 2px;
+        padding: 28px;
+        box-shadow: 7px 7px 0 var(--ink);
+      }
+      .compliments {
+        gap: 12px;
+        transform: none;
+      }
+      .flip {
+        height: 170px;
+        background: #fff9e8;
+        border: 2px solid var(--ink);
+        border-radius: 2px;
+        padding: 17px;
+        box-shadow: 5px 5px 0 var(--ink);
+        text-align: left;
+      }
+      .flip:nth-child(2) {
+        background: var(--pop);
+        transform: translateY(14px);
+      }
+      .flip:nth-child(3) {
+        background: var(--soft);
+      }
+      .flip:nth-child(4) {
+        background: #f0a89a;
+        transform: translateY(14px);
+      }
+      .flip .symbol {
+        font-family: "Fraunces", Georgia, serif;
+        color: var(--accent);
+      }
+      .flip.open {
+        background: #fff9e8;
+        box-shadow: 2px 2px 0 var(--ink);
+        transform: translate(3px, 3px);
+      }
+      .quiz {
+        background: var(--soft);
+        transform: rotate(1deg);
+      }
+      .quiz h3 {
+        font:
+          500 34px "Fraunces",
+          Georgia,
+          serif;
+      }
+      .choice {
+        border: 1.5px solid var(--ink);
+        border-radius: 2px;
+        background: #fff9e8;
+        padding: 15px;
+        font-size: 13px;
+      }
+      .choice:hover,
+      .choice.selected {
+        background: var(--pop);
+        transform: translateX(4px);
+      }
+      .gift-area {
+        gap: 14px;
+      }
+      .gift {
+        min-width: 0;
+        border: 2px solid var(--ink);
+        border-radius: 2px;
+        background: #f0a89a;
+        min-height: 205px;
+        box-shadow: 5px 5px 0 var(--ink);
+      }
+      .gift:nth-child(2) {
+        margin-top: 24px;
+        background: var(--pop);
+      }
+      .gift:nth-child(3) {
+        background: var(--soft);
+      }
+      .gift:hover {
+        transform: translateY(-6px);
+      }
+      .gift .gift-icon {
+        color: var(--accent);
+      }
+      .gift b {
+        font:
+          500 18px "Fraunces",
+          Georgia,
+          serif;
+      }
+      .gift-message {
+        font:
+          500 19px "Fraunces",
+          Georgia,
+          serif;
+      }
+      .plate {
+        background: var(--pop);
+        border: 2px solid var(--ink);
+      }
+      .cake-body {
+        background: repeating-linear-gradient(
+          90deg,
+          var(--accent) 0 24px,
+          color-mix(in srgb, var(--accent) 80%, var(--ink)) 24px 26px
+        );
+        border: 2px solid var(--ink);
+      }
+      .cake-top {
+        background: #fff9e8;
+        border-color: var(--pop);
+      }
+      .candle {
+        background: repeating-linear-gradient(
+          45deg,
+          var(--ink) 0 7px,
+          #fff9e8 7px 13px
+        );
+      }
+      .flame {
+        background: #ffe16b;
+        box-shadow: 0 0 22px #ffe16b;
+      }
+      .wish-input {
+        border-bottom: 2px solid var(--ink);
+      }
+      .hold {
+        background: linear-gradient(
+          90deg,
+          var(--accent) var(--progress, 0%),
+          #fff9e8 var(--progress, 0%)
+        );
+        color: var(--ink);
+        border: 2px solid var(--ink);
+        border-radius: 2px;
+        box-shadow: 4px 4px 0 var(--ink);
+        font-weight: 700;
+      }
+      .letter {
+        background: #fff9e8;
+        color: #263d36;
+        border: 2px solid var(--ink);
+        box-shadow: 8px 8px 0 var(--ink);
+        transform: rotate(-2deg);
+        border-radius: 2px;
+      }
+      .letter:before {
+        background: var(--pop);
+        border: 1px solid var(--ink);
+      }
+      .letter .stamp {
+        border: 2px dashed var(--accent);
+        color: var(--accent);
+        font-family: "Fraunces", Georgia, serif;
+      }
+      .letter h3 {
+        font:
+          500 28px "Fraunces",
+          Georgia,
+          serif;
+      }
+      .letter p {
+        font:
+          16px/1.8 "Fraunces",
+          Georgia,
+          serif;
+      }
+      .signature {
+        font:
+          italic 22px "Fraunces",
+          Georgia,
+          serif;
+      }
+      .heartbtn {
+        color: var(--accent);
+      }
+      .sound-on {
+        background: var(--accent);
+        color: #fff9e8;
+      }
+      dialog {
+        border: 2px solid var(--ink);
+        border-radius: 2px;
+        background: #ce9b0f;
+        color: var(--ink);
+        box-shadow: 10px 10px 0 var(--ink);
+      }
+      dialog h3 {
+        font:
+          500 32px "Fraunces",
+          Georgia,
+          serif;
+      }
+      dialog input,
+      dialog textarea {
+        border: 1.5px solid var(--ink);
+        border-radius: 2px;
+        background: #fffdf2;
+        color: var(--ink);
+      }
+      .close {
+        width: 36px;
+        height: 36px;
+        border: 2px solid var(--ink);
+        border-radius: 2px;
+        background: var(--pop);
+      }
+      .slide.active {
+        animation: chapter-arrive 0.48s cubic-bezier(0.2, 0.7, 0.25, 1) both;
+      }
+      .slide.active .visual {
+        animation: art-arrive 0.58s 0.08s both;
+      }
+      @keyframes chapter-arrive {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes art-arrive {
+        from {
+          opacity: 0;
+          transform: translateY(10px) rotate(1deg);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) rotate(0);
+        }
+      }
+      @media (min-width: 1500px) {
+        main {
+          padding-top: 45px;
+        }
+        .slide {
+          min-height: 660px;
+        }
+        .grid {
+          min-height: 570px;
+        }
+      }
+      @media (max-width: 800px) {
+        header {
+          height: 76px;
+          padding: 0 6%;
+        }
+        .edition {
+          display: none;
+        }
+        main {
+          padding: 23px 7% 0;
+        }
+        .topline {
+          font-size: 8px;
+          margin-bottom: 20px;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+          gap: 12px;
+          min-height: 0;
+        }
+        .slide {
+          min-height: 0;
+        }
+        h1,
+        h2 {
+          font-size: 54px;
+          line-height: 1.02;
+          margin: 18px 0;
+        }
+        .copy p {
+          max-width: 100%;
+        }
+        .visual {
+          min-height: 340px;
+          margin-top: 10px;
+        }
+        .world {
+          max-width: 360px;
+        }
+        .primary {
+          margin-top: 8px;
+        }
+        .countdown {
+          margin-top: 20px;
+        }
+        .compliments {
+          max-width: 350px;
+          margin: 15px 0 30px;
+        }
+        .flip {
+          height: 150px;
+        }
+        .quiz {
+          margin: 20px 0;
+        }
+        .gift-area {
+          max-width: 430px;
+        }
+        .gift {
+          min-height: 185px;
+        }
+        .letter {
+          margin: 25px 0;
+        }
+        .chapters {
+          gap: 16px;
+        }
+        .chapter span {
+          display: none;
+        }
+        .chapter {
+          font-size: 11px;
+        }
+        .footer-note {
+          display: none;
+        }
+        footer {
+          padding: 25px 7%;
+          margin-top: 20px;
+        }
+        .pagearrows {
+          gap: 8px;
+        }
+        .scribble {
+          font-size: 14px;
+        }
+        .floatlabel {
+          font-size: 9px;
+          padding: 10px;
+        }
+        .badge {
+          width: 70px;
+          height: 70px;
+        }
+        .badge b {
+          font-size: 24px;
+        }
+      }
+      @media (max-width: 480px) {
+        .brand {
+          font-size: 13px;
+        }
+        .tools {
+          gap: 8px;
+        }
+        .iconbtn {
+          width: 40px;
+          height: 40px;
+        }
+        main {
+          padding-right: 6%;
+          padding-left: 6%;
+        }
+        .topline {
+          align-items: flex-start;
+          gap: 8px;
+        }
+        .live {
+          max-width: 62%;
+          line-height: 1.5;
+        }
+        .grid {
+          gap: 4px;
+        }
+        h1,
+        h2 {
+          font-size: 43px;
+        }
+        .visual {
+          min-height: 295px;
+        }
+        .world {
+          width: 100%;
+        }
+        .gift-area {
+          gap: 8px;
+        }
+        .gift {
+          padding: 12px 6px;
+          min-height: 170px;
+        }
+        .gift .gift-icon {
+          font-size: 36px;
+          margin: 12px 0 18px;
+        }
+        .gift b {
+          font-size: 15px;
+        }
+        .gift small {
+          font-size: 8px;
+        }
+        .card {
+          padding: 20px;
+        }
+        .letter {
+          padding: 30px 24px;
+        }
+        .chapters {
+          gap: 12px;
+        }
+        .pagearrows {
+          gap: 6px;
+        }
+        .arrow {
+          width: 36px;
+          height: 36px;
+        }
+      }
+      @media (max-width: 480px) {
+        .orbit.two {
+          transform: rotate(35deg) scaleY(0.86) scale(0.72);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .slide.active,
+        .slide.active .visual {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="brand">
+        <svg viewBox="0 0 40 40" fill="none">
+          <path
+            d="M20 2Q23 15 38 20Q23 23 20 38Q17 23 2 20Q17 17 20 2Z"
+            fill="currentColor"
+          />
+          <circle cx="20" cy="20" r="4" fill="var(--bg)" /></svg
+        >a little world.
+      </div>
+      <div class="edition">A birthday edition • 06 October</div>
+      <div class="tools">
+        <button
+          class="iconbtn"
+          id="sound"
+          aria-label="Turn on ambient melody"
+          title="Ambient melody"
+        >
+          ♫</button
+        ><button
+          class="iconbtn"
+          id="edit"
+          aria-label="Personalize this world"
+          title="Personalize"
+        >
+          ✎
+        </button>
+      </div>
+    </header>
+    <main>
+      <div class="topline">
+        <span class="live">A SMALL CORNER OF THE UNIVERSE. ALL YOURS.</span
+        ><span id="chapterLabel">01 / THE INVITATION</span>
+      </div>
+      <section class="slide active" aria-label="The invitation">
+        <div class="grid">
+          <div class="copy">
+            <div class="eyebrow">For my favorite plot twist</div>
+            <h1>
+              Hey, <span class="recipient">birthday girl</span>.<br />This
+              little world<br />is <em>all yours.</em>
+            </h1>
+            <p>
+              October 6 looks good on you.<br />So I made you a tiny universe. A
+              little silly, a little soft, and suspiciously obsessed with your
+              smile.
+            </p>
+            <button class="primary next">Come on in <span>↗</span></button>
+            <div class="micro">No map needed. Just you, being you.</div>
+            <div class="countdown" id="countdown"></div>
+          </div>
+          <div class="visual">
+            <div class="world">
+              <div class="orbit"></div>
+              <div class="orbit two"></div>
+              <svg
+                viewBox="0 0 500 500"
+                role="img"
+                aria-label="A dreamy lavender planet with a tiny birthday cake and sparkling stars"
+              >
+                <defs>
+                  <linearGradient id="planet" x1="0" x2="1" y2="1">
+                    <stop stop-color="#d6d1ef" />
+                    <stop offset="1" stop-color="#9390c9" />
+                  </linearGradient>
+                  <filter id="shadow">
+                    <feDropShadow
+                      dx="0"
+                      dy="16"
+                      stdDeviation="16"
+                      flood-color="#7674bc"
+                      flood-opacity=".2"
+                    />
+                  </filter>
+                </defs>
+                <ellipse
+                  cx="255"
+                  cy="398"
+                  rx="135"
+                  ry="18"
+                  fill="#34345d"
+                  opacity=".05"
+                />
+                <circle
+                  cx="252"
+                  cy="252"
+                  r="135"
+                  fill="url(#planet)"
+                  filter="url(#shadow)"
+                />
+                <path
+                  d="M151 169C190 118 280 101 337 159"
+                  stroke="#eeeaf9"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  fill="none"
+                  opacity=".5"
+                />
+                <ellipse
+                  cx="249"
+                  cy="261"
+                  rx="198"
+                  ry="54"
+                  transform="rotate(-23 249 261)"
+                  fill="none"
+                  stroke="#ddd6a5"
+                  stroke-width="20"
+                />
+                <path
+                  d="M154 222Q180 134 260 121Q333 128 368 201Q265 242 154 222"
+                  fill="url(#planet)"
+                />
+                <ellipse
+                  cx="251"
+                  cy="259"
+                  rx="69"
+                  ry="18"
+                  fill="#67649c"
+                  opacity=".2"
+                />
+                <path d="M194 203v40c0 27 113 27 113 0v-40" fill="#f5c8b5" />
+                <ellipse cx="251" cy="204" rx="57" ry="19" fill="#fff5db" />
+                <path
+                  d="M200 208v17m15-12v19m18-14v12m18-11v18m18-20v13m18-18v13m13-18v10"
+                  stroke="#fff5db"
+                  stroke-width="8"
+                  stroke-linecap="round"
+                />
+                <path d="M251 167v36" stroke="#7470ac" stroke-width="9" />
+                <path d="M251 146c-18 20 10 24 5 7Z" fill="#f5d378" />
+                <circle cx="228" cy="294" r="4" fill="#4a4778" />
+                <circle cx="275" cy="294" r="4" fill="#4a4778" />
+                <path
+                  d="M243 306q10 11 19-1"
+                  stroke="#4a4778"
+                  stroke-width="3"
+                  fill="none"
+                  stroke-linecap="round"
+                />
+                <ellipse cx="217" cy="306" rx="10" ry="5" fill="#e3adc0" />
+                <ellipse cx="288" cy="306" rx="10" ry="5" fill="#e3adc0" />
+                <path
+                  d="M102 105l5 13 14 5-14 5-5 13-5-13-14-5 14-5Z"
+                  fill="#9d99c8"
+                />
+                <path
+                  d="M378 330l5 15 15 5-15 5-5 15-5-15-15-5 15-5Z"
+                  fill="#929060"
+                />
+                <circle cx="348" cy="86" r="5" fill="#aca7cf" />
+                <circle cx="105" cy="336" r="4" fill="#b5afcf" />
+              </svg>
+              <div class="floatlabel">100% you-shaped universe ♡</div>
+              <div class="badge">EST.<b>06.10</b>YOUR DAY</div>
+              <div class="floatlabel right">main character energy ✧</div>
+              <span class="star s1">✧</span><span class="star s2">✦</span>
+              <div class="scribble">
+                made with a little too much affection ↗
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="slide" aria-label="The evidence">
+        <div class="grid">
+          <div class="copy">
+            <div class="eyebrow">Exhibit A: you, obviously</div>
+            <h2>You’re kind of<br />a <em>big deal.</em></h2>
+            <p>
+              I considered writing a normal birthday message.<br />Then I
+              remembered you’re not exactly a normal amount of special.
+            </p>
+            <p>Tap the cards. I collected some evidence.</p>
+            <button class="primary next">
+              Okay, keep flattering me <span>↗</span>
+            </button>
+          </div>
+          <div class="visual">
+            <div class="compliments">
+              <button
+                class="flip"
+                data-reveal="Your smile. Honestly? Extremely distracting. Please use responsibly."
+              >
+                <span class="symbol">☼</span>The smile situation<small
+                  >TAP TO INVESTIGATE ↗</small
+                ></button
+              ><button
+                class="flip"
+                data-reveal="You make ordinary days feel like the good part of a movie."
+              >
+                <span class="symbol">✷</span>The you effect<small
+                  >TAP TO INVESTIGATE ↗</small
+                ></button
+              ><button
+                class="flip"
+                data-reveal="A little dramatic? Maybe. My favorite kind of chaos? Absolutely."
+              >
+                <span class="symbol">⚡</span>A tiny accusation<small
+                  >TAP TO INVESTIGATE ↗</small
+                ></button
+              ><button
+                class="flip"
+                data-reveal="Of all the people I could have met, I’m really, really glad it was you."
+              >
+                <span class="symbol">♡</span>The honest truth<small
+                  >TAP TO INVESTIGATE ↗</small
+                >
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="slide" aria-label="The important question">
+        <div class="grid">
+          <div class="copy">
+            <div class="eyebrow">A very scientific study</div>
+            <h2>Let’s talk about<br />your <em>superpower.</em></h2>
+            <p>
+              A completely unbiased quiz, made by someone who is definitely,
+              absolutely not biased about you.
+            </p>
+            <div class="micro">
+              One question. No wrong answers. An alarming amount of affection.
+            </div>
+            <button class="primary next">
+              I accept my greatness <span>↗</span>
+            </button>
+          </div>
+          <div class="visual">
+            <div class="card quiz">
+              <label>THE BIRTHDAY GIRL EXAM / 01</label>
+              <h3>What’s your most<br />dangerous quality?</h3>
+              <div class="choices">
+                <button
+                  class="choice"
+                  data-answer="Correct. One smile and suddenly I’ve forgotten what I was saying. A public safety concern."
+                >
+                  A &nbsp; My unfairly cute smile</button
+                ><button
+                  class="choice"
+                  data-answer="Correct. Somehow you can roast me and still be the sweetest person in the room. Rude talent."
+                >
+                  B &nbsp; My elite-level teasing</button
+                ><button
+                  class="choice"
+                  data-answer="Correct. You care in the little ways that stay with people. That’s the real magic."
+                >
+                  C &nbsp; My secretly soft heart</button
+                ><button
+                  class="choice"
+                  data-answer="The only scientifically complete answer. You’re a whole problem. A very lovely one."
+                >
+                  D &nbsp; All of the above, obviously
+                </button>
+              </div>
+              <div class="feedback" aria-live="polite">
+                Choose carefully. Your ego is about to be encouraged.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="slide" aria-label="The tiny gifts">
+        <div class="grid">
+          <div class="copy">
+            <div class="eyebrow">Good things come in threes</div>
+            <h2>Little gifts.<br /><em>Big intentions.</em></h2>
+            <p>
+              No receipts. No returns. Especially on the compliments.<br />Open
+              each little parcel. They’re all yours.
+            </p>
+            <button class="primary next">
+              There’s cake, right? <span>↗</span>
+            </button>
+          </div>
+          <div
+            class="visual"
+            style="
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+            "
+          >
+            <div class="gift-area">
+              <button
+                class="gift"
+                data-gift="A lifetime supply of being reminded that you matter. Starting right now."
+                data-title="Reassurance"
+                data-icon="♡"
+              >
+                <span class="gift-icon">✿</span><b>Something soft</b
+                ><small>UNWRAP ME +</small></button
+              ><button
+                class="gift"
+                data-gift="One imaginary adventure: a long walk, something sweet, and absolutely no checking the time."
+                data-title="An adventure"
+                data-icon="☀"
+              >
+                <span class="gift-icon">✧</span><b>Something fun</b
+                ><small>UNWRAP ME +</small></button
+              ><button
+                class="gift"
+                data-gift="An extremely important fact: this little world is better because you’re in it. Mine too."
+                data-title="A little truth"
+                data-icon="∞"
+              >
+                <span class="gift-icon">❋</span><b>Something true</b
+                ><small>UNWRAP ME +</small>
+              </button>
+            </div>
+            <div class="gift-message" aria-live="polite">
+              Three parcels. Zero self-control required.
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="slide" aria-label="Make a wish">
+        <div class="grid">
+          <div class="copy">
+            <div class="eyebrow">A little pause for a little magic</div>
+            <h2>The world can wait.<br /><em>Make a wish.</em></h2>
+            <p>
+              For the big, beautiful thing you haven’t said out loud yet. For
+              more happy days. For whatever your heart is quietly hoping for.
+            </p>
+            <p>This one is between you and the stars.</p>
+            <button class="primary next">
+              One last thing for you <span>↗</span>
+            </button>
+          </div>
+          <div class="visual">
+            <div class="cake-zone">
+              <div class="cake">
+                <div class="plate"></div>
+                <div class="cake-body"></div>
+                <div class="cake-top"></div>
+                <div class="candle"></div>
+                <div class="flame"></div>
+              </div>
+              <input
+                class="wish-input"
+                aria-label="Your private birthday wish"
+                placeholder="Whisper a wish here… (or keep it in your heart)"
+                maxlength="200"
+              />
+              <div>
+                <button class="hold" id="wish">
+                  Hold to blow out the candle ✧
+                </button>
+              </div>
+              <div class="micro" id="wishStatus" aria-live="polite">
+                Hold for 2 seconds. A little birthday magic.
+              </div>
+              <div class="micro">
+                Your wish stays on this page. Never sent or saved.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="slide" aria-label="Just between us">
+        <div class="grid">
+          <div class="copy">
+            <div class="eyebrow">And here’s what I really mean</div>
+            <h2>More you.<br />More joy.<br /><em>More everything.</em></h2>
+            <p>
+              Happy birthday,
+              <span class="recipient">birthday girl</span>.<br />Here’s to your
+              next chapter being even lovelier than you imagined.
+            </p>
+            <button class="primary" id="celebrate">
+              A little more birthday magic <span>✧</span>
+            </button>
+            <div>
+              <button
+                class="heartbtn"
+                id="heart"
+                aria-label="Send a little heart"
+              >
+                ♡
+              </button>
+              <span class="love-note" id="heartNote"
+                >a tiny heart, if you felt it too.</span
+              >
+            </div>
+            <button class="chapter" id="restart">
+              ↶ &nbsp; LET’S DO IT ALL AGAIN
+            </button>
+          </div>
+          <div class="visual">
+            <article class="letter">
+              <div class="stamp">✿</div>
+              <div class="eyebrow" style="font-size: 8px">
+                06 October • just for you
+              </div>
+              <h3>Dear <span class="recipient">birthday girl</span>,</h3>
+              <p id="letterText">
+                I hope this year is gentle with your heart and wildly generous
+                with your happiness. I hope you laugh until your cheeks hurt,
+                find new little things to love, and never have to wonder if you
+                matter.<br /><br />You do. More than you know.<br /><br />Thank
+                you for being your wonderfully ridiculous, lovely self. I’d pick
+                your company in any little universe.
+              </p>
+              <div class="signature">
+                With a suspicious amount of affection,
+              </div>
+              <p id="senderText" style="margin-bottom: 0">
+                Your favorite admirer ♡
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div class="chapters" aria-label="Chapters">
+        <button class="chapter active" data-go="0">
+          01 <span>THE HELLO</span></button
+        ><button class="chapter" data-go="1">02 <span>THE YOU</span></button
+        ><button class="chapter" data-go="2">03 <span>THE QUIZ</span></button
+        ><button class="chapter" data-go="3">04 <span>THE GIFTS</span></button
+        ><button class="chapter" data-go="4">05 <span>THE WISH</span></button
+        ><button class="chapter" data-go="5">06 <span>THE HEART</span></button>
+      </div>
+      <div class="footer-note">HANDCRAFTED WITH FEELINGS. OBVIOUSLY.</div>
+      <div class="pagearrows">
+        <button class="arrow" id="prev" aria-label="Previous chapter" disabled>
+          ←</button
+        ><span id="page">01 / 06</span
+        ><button class="arrow" id="next" aria-label="Next chapter">→</button>
+      </div>
+    </footer>
+    <dialog id="settings">
+      <button class="close" id="close" aria-label="Close settings">×</button>
+      <h3>Make it yours.</h3>
+      <p>
+        Saved in this browser. To send your personalized world, download a
+        keepsake HTML file below.
+      </p>
+      <form id="personalize">
+        <label
+          >Her name or nickname<input
+            id="nameInput"
+            placeholder="birthday girl"
+            maxlength="28" /></label
+        ><label
+          >From<input
+            id="fromInput"
+            placeholder="Your favorite admirer ♡"
+            maxlength="60" /></label
+        ><label
+          >Your little letter (optional)<textarea
+            id="letterInput"
+            placeholder="Write something only you would say…"
+            maxlength="1800"
+          ></textarea></label
+        ><button class="primary" type="submit">Save my little world ↗</button
+        ><button
+          class="chapter"
+          type="button"
+          id="download"
+          style="display: block; margin-top: 16px"
+        >
+          ↓ DOWNLOAD PERSONALIZED WEBSITE
+        </button>
+      </form>
+    </dialog>
+    <script>
+      window.addEventListener("load", () => {
+        themes.splice(
+          0,
+          themes.length,
+          ["#e4f4eb", "#173f38", "#e95d45", "#cfe7da", "#f0cf59"],
+          ["#f8e0d3", "#253d5b", "#df6047", "#f1c7b5", "#a6d3bd"],
+          ["#e5eff6", "#173d56", "#dd6047", "#cedfe6", "#f0cf59"],
+          ["#f4efbd", "#344a37", "#df5e3e", "#e5e8c4", "#8fc3aa"],
+          ["#e8f0db", "#344832", "#d95a43", "#d4e1c7", "#f1ce54"],
+          ["#f3dce4", "#50394d", "#ce4f59", "#efd1d9", "#edc956"],
+        );
+        go(current);
+      });
+    </script>
+    <script>
+      const $ = (s) => document.querySelector(s),
+        $$ = (s) => document.querySelectorAll(s);
+      let current = 0;
+      const themes = [
+        ["#f6f3e9", "#34345d", "#7674bc", "#e7e3f1", "#d9ec94"],
+        ["#f4e5db", "#68463c", "#bb7760", "#edd2c3", "#e8d88d"],
+        ["#eeeaf6", "#46415f", "#8b70ad", "#dfd5eb", "#d7e3a5"],
+        ["#f5eddc", "#595e44", "#839262", "#e4e7d2", "#dbdeb6"],
+        ["#242b46", "#f6eedc", "#afa4cf", "#363b55", "#d9cba0"],
+        ["#e8eddf", "#394d43", "#7d9471", "#dbe4d3", "#cddab7"],
+      ];
+      const labels = [
+        "THE INVITATION",
+        "THE EVIDENCE",
+        "THE IMPORTANT QUESTION",
+        "THE TINY GIFTS",
+        "MAKE A WISH",
+        "JUST BETWEEN US",
+      ];
+      function go(n) {
+        if (n < 0 || n > 5) return;
+        current = n;
+        $$(".slide").forEach((s, i) => s.classList.toggle("active", i === n));
+        $$("[data-go]").forEach((s, i) => {
+          s.classList.toggle("active", i === n);
+          s.setAttribute("aria-current", i === n ? "step" : "false");
+        });
+        ["--bg", "--ink", "--accent", "--soft", "--pop"].forEach((v, i) =>
+          document.documentElement.style.setProperty(v, themes[n][i]),
+        );
+        $("#chapterLabel").textContent = `0${n + 1} / ${labels[n]}`;
+        $("#page").textContent = `0${n + 1} / 06`;
+        $("#prev").disabled = n === 0;
+        $("#next").disabled = n === 5;
+        if (innerWidth < 801) window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+      $$(".next").forEach((b) => (b.onclick = () => go(current + 1)));
+      $$("[data-go]").forEach((b) => (b.onclick = () => go(+b.dataset.go)));
+      $("#prev").onclick = () => go(current - 1);
+      $("#next").onclick = () => go(current + 1);
+      $("#restart").onclick = () => {
+        resetWish();
+        go(0);
+      };
+      document.addEventListener("keydown", (e) => {
+        if (
+          ["INPUT", "TEXTAREA", "BUTTON"].includes(e.target.tagName) ||
+          $("#settings").open
+        )
+          return;
+        if (e.key === "ArrowRight") go(current + 1);
+        if (e.key === "ArrowLeft") go(current - 1);
+      });
+      $$(".flip").forEach((b) => {
+        const original = b.innerHTML;
+        b.onclick = () => {
+          b.classList.toggle("open");
+          b.innerHTML = b.classList.contains("open")
+            ? b.dataset.reveal + "<small>TOLD YOU. ♡ · TAP TO CLOSE</small>"
+            : original;
+          b.setAttribute("aria-pressed", b.classList.contains("open"));
+        };
+      });
+      $$(".choice").forEach(
+        (b) =>
+          (b.onclick = () => {
+            $$(".choice").forEach((x) => {
+              x.classList.remove("selected");
+              x.setAttribute("aria-pressed", "false");
+            });
+            b.classList.add("selected");
+            b.setAttribute("aria-pressed", "true");
+            $(".feedback").textContent = b.dataset.answer;
+          }),
+      );
+      $$(".gift").forEach(
+        (b) =>
+          (b.onclick = () => {
+            b.querySelector(".gift-icon").textContent = b.dataset.icon;
+            b.querySelector("b").textContent = b.dataset.title;
+            b.querySelector("small").textContent = "YOURS TO KEEP ♡";
+            $(".gift-message").textContent = b.dataset.gift;
+            confetti(16);
+          }),
+      );
+      function confetti(n = 65) {
+        if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        for (let i = 0; i < n; i++) {
+          const p = document.createElement("span");
+          p.className = "confetti";
+          p.textContent = ["✦", "●", "♥", "▪"][(Math.random() * 4) | 0];
+          p.style.cssText = `left:${Math.random() * 100}vw;color:${["#aaa0d0", "#d6bc6b", "#bf8799", "#97af8f"][i % 4]};font-size:${9 + Math.random() * 16}px;--t:${2 + Math.random() * 3}s;animation-delay:${Math.random() * 0.6}s`;
+          document.body.append(p);
+          setTimeout(() => p.remove(), 6000);
+        }
+      }
+      let holding = false,
+        start = 0,
+        raf,
+        blown = false;
+      const wish = $("#wish");
+      function hold() {
+        if (blown || holding) return;
+        holding = true;
+        start = performance.now();
+        function tick(t) {
+          if (!holding) return;
+          let p = Math.min((t - start) / 2000, 1);
+          wish.style.setProperty("--progress", p * 100 + "%");
+          if (p === 1) {
+            holding = false;
+            blown = true;
+            $(".cake").classList.add("blown");
+            wish.textContent = "Your wish is with the stars ✧";
+            $("#wishStatus").textContent =
+              "May the universe be extra kind to this one. ♡";
+            confetti(90);
+          } else raf = requestAnimationFrame(tick);
+        }
+        raf = requestAnimationFrame(tick);
+      }
+      function stop() {
+        holding = false;
+        cancelAnimationFrame(raf);
+        if (!blown) wish.style.setProperty("--progress", "0%");
+      }
+      function resetWish() {
+        stop();
+        blown = false;
+        $(".cake").classList.remove("blown");
+        wish.textContent = "Hold to blow out the candle ✧";
+        wish.style.setProperty("--progress", "0%");
+        $("#wishStatus").textContent =
+          "Hold for 2 seconds. A little birthday magic.";
+        $(".wish-input").value = "";
+      }
+      wish.onpointerdown = (e) => {
+        wish.setPointerCapture(e.pointerId);
+        hold();
+      };
+      wish.onpointerup = stop;
+      wish.onpointercancel = stop;
+      wish.onkeydown = (e) => {
+        if (e.key === " " || e.key === "Enter") {
+          e.preventDefault();
+          hold();
+        }
+      };
+      wish.onkeyup = stop;
+      wish.onblur = stop;
+      $("#celebrate").onclick = () => confetti(110);
+      let hearts = 0;
+      $("#heart").onclick = () => {
+        hearts++;
+        $("#heart").textContent = "♥";
+        $("#heartNote").textContent =
+          hearts === 1
+            ? "Felt it. Keeping this one. ♡"
+            : `${hearts} little hearts. Yes, I’m keeping every one.`;
+        confetti(15);
+      };
+      function countdown() {
+        const now = new Date();
+        let year = now.getFullYear();
+        let target = new Date(year, 9, 6);
+        if (now.getMonth() === 9 && now.getDate() === 6) {
+          $("#countdown").innerHTML = "<b>It’s your day. Happy birthday! ♡</b>";
+          return;
+        }
+        if (now > target) target = new Date(year + 1, 9, 6);
+        let t = target - now;
+        $("#countdown").innerHTML =
+          "<small>COUNTING DOWN<br>TO YOUR DAY</small>" +
+          [
+            [Math.floor(t / 86400000), "DAYS"],
+            [Math.floor(t / 3600000) % 24, "HRS"],
+            [Math.floor(t / 60000) % 60, "MINS"],
+          ]
+            .map(
+              ([a, b]) =>
+                `<div><b>${String(a).padStart(2, "0")}</b><span>${b}</span></div>`,
+            )
+            .join("");
+      }
+      countdown();
+      setInterval(countdown, 30000);
+      let audio,
+        melody,
+        on = false,
+        note = 0;
+      function playNote() {
+        if (!on) return;
+        let o = audio.createOscillator(),
+          g = audio.createGain();
+        o.type = "sine";
+        o.frequency.value = [
+          261.63, 329.63, 392, 523.25, 440, 392, 329.63, 293.66,
+        ][note++ % 8];
+        g.gain.setValueAtTime(0, audio.currentTime);
+        g.gain.linearRampToValueAtTime(0.055, audio.currentTime + 0.05);
+        g.gain.exponentialRampToValueAtTime(0.001, audio.currentTime + 1.4);
+        o.connect(g);
+        g.connect(audio.destination);
+        o.start();
+        o.stop(audio.currentTime + 1.5);
+      }
+      $("#sound").onclick = async () => {
+        try {
+          audio =
+            audio || new (window.AudioContext || window.webkitAudioContext)();
+          await audio.resume();
+          on = !on;
+          $("#sound").classList.toggle("sound-on", on);
+          $("#sound").setAttribute("aria-pressed", on);
+          $("#sound").setAttribute(
+            "aria-label",
+            on ? "Mute ambient melody" : "Turn on ambient melody",
+          );
+          if (on) {
+            playNote();
+            melody = setInterval(playNote, 700);
+          } else clearInterval(melody);
+        } catch {
+          alert(
+            "Ambient audio is not supported in this browser. Everything else still works!",
+          );
+        }
+      };
+      let personal = { name: "", from: "", letter: "" };
+      const defaultLetter = $("#letterText").innerHTML;
+      function apply() {
+        const name = personal.name || "birthday girl";
+        $$(".recipient").forEach((e) => (e.textContent = name));
+        $("#senderText").textContent =
+          personal.from || "Your favorite admirer ♡";
+        if (personal.letter) {
+          $("#letterText").textContent = personal.letter;
+          $("#letterText").style.whiteSpace = "pre-line";
+        } else $("#letterText").innerHTML = defaultLetter;
+        document.title = `A little world for ${name} · October 6`;
+      }
+      const embedded = document.querySelector("#personalData");
+      try {
+        personal = embedded
+          ? JSON.parse(embedded.textContent)
+          : JSON.parse(localStorage.getItem("littleWorldPersonal") || "null") ||
+            personal;
+      } catch {}
+      apply();
+      $("#edit").onclick = () => {
+        $("#nameInput").value = personal.name;
+        $("#fromInput").value = personal.from;
+        $("#letterInput").value = personal.letter;
+        $("#settings").showModal();
+      };
+      $("#close").onclick = () => $("#settings").close();
+      function save() {
+        personal = {
+          name: $("#nameInput").value.trim(),
+          from: $("#fromInput").value.trim(),
+          letter: $("#letterInput").value.trim(),
+        };
+        try {
+          localStorage.setItem("littleWorldPersonal", JSON.stringify(personal));
+        } catch {}
+        apply();
+      }
+      $("#personalize").onsubmit = (e) => {
+        e.preventDefault();
+        save();
+        $("#settings").close();
+      };
+      $("#download").onclick = () => {
+        save();
+        const clone = document.documentElement.cloneNode(true);
+        clone.querySelector("#personalData")?.remove();
+        clone.querySelector("#settings").removeAttribute("open");
+        clone.querySelectorAll(".confetti").forEach((e) => e.remove());
+        const data = document.createElement("script");
+        data.id = "personalData";
+        data.type = "application/json";
+        data.textContent = JSON.stringify(personal).replace(/</g, "\\u003c");
+        clone.querySelector("head").append(data);
+        const blob = new Blob(["<!DOCTYPE html>\n" + clone.outerHTML], {
+          type: "text/html",
+        });
+        const url = URL.createObjectURL(blob),
+          a = document.createElement("a");
+        a.href = url;
+        a.download = "a-little-world-for-you.html";
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(url), 2000);
+      };
+      go(0);
+    </script>
+    <script>
+      (function () {
+        function c() {
+          var b =
+            a.contentDocument || (a.contentWindow && a.contentWindow.document);
+          if (b) {
+            var d = b.createElement("script");
+            d.innerHTML =
+              "window.__CF$cv$params={r:'a3e959b01dc595fd',t:'MTc4OTk5NjY0OA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+            b.getElementsByTagName("head")[0].appendChild(d);
+          }
+        }
+        if (document.body) {
+          var a = document.createElement("iframe");
+          a.height = 1;
+          a.width = 1;
+          a.style.position = "absolute";
+          a.style.top = 0;
+          a.style.left = 0;
+          a.style.border = "none";
+          a.style.visibility = "hidden";
+          document.body.appendChild(a);
+          if ("loading" !== document.readyState) c();
+          else if (window.addEventListener)
+            document.addEventListener("DOMContentLoaded", c);
+          else {
+            var e = document.onreadystatechange || function () {};
+            document.onreadystatechange = function (b) {
+              e(b);
+              "loading" !== document.readyState &&
+                ((document.onreadystatechange = e), c());
+            };
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>
